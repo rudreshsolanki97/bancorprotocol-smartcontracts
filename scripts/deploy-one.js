@@ -3,9 +3,9 @@ const path = require('path');
 const Web3 = require('web3');
 
 const NODE_ADDRESS = process.argv[2];
-const PRIVATE_KEY = process.argv[3];
-const CONTRACT_NAME = process.argv[4];
-const CONTRACT_ARGS = process.argv.slice(5);
+const PRIVATE_KEY = process.argv[2];
+const CONTRACT_NAME = process.argv[3];
+const CONTRACT_ARGS = process.argv.slice(4);
 
 const scan = async (message) => {
     process.stdout.write(message);
@@ -56,9 +56,7 @@ const send = async (web3, account, transaction) => {
         try {
             const options = {
                 data: transaction.encodeABI(),
-                gas: await transaction.estimateGas({
-                    from: account.address
-                }),
+                gas: 607020,
                 gasPrice: await getGasPrice(web3)
             };
             const signed = await web3.eth.accounts.signTransaction(options, account.privateKey);
@@ -76,7 +74,7 @@ const send = async (web3, account, transaction) => {
 };
 
 const run = async () => {
-    const web3 = new Web3(NODE_ADDRESS);
+    const web3 = new Web3(new Web3.providers.HttpProvider("https://ropsten.infura.io/v3/93616cb33aae4439b46feffabb99a91d"));
     const account = web3.eth.accounts.privateKeyToAccount(PRIVATE_KEY);
     const contractPath = path.resolve(__dirname, '../solidity/build', CONTRACT_NAME);
     const abi = fs.readFileSync(contractPath + '.abi', {
