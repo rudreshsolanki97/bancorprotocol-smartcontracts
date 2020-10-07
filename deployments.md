@@ -1,8 +1,9 @@
 # List of deployments
 
 
-## Ropsten
+## Apothem
 
- - ERC20 - 0x6E5c543e0c37388E838298fb46D2FAECa94EAAAE
- - ContractRegistry - 0xd2695893ab6E9a6BDB159aC271f20118A81F4748
- - BancorX - 0xcFC646161aaBC11FD42E2798C9Cb7045A81770B2
+ - ERC20 - 0xf5bc805e78c4e09e95cd304bf13635751b781ac6
+ - ContractRegistry - 0x70fbcb31911a66d5cbadca6ae2da56e1aba755d2
+ - ContractRegistryClient - 0xdd2e78ecdb42cdd5f9f91d23713c4e0b1a917570
+ - BancorX - 0xe9972a2f552c0eb151f3cab005500d382a055d84

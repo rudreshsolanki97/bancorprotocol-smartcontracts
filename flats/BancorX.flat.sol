@@ -178,103 +178,121 @@ interface IContractRegistry {
 
 
 
-/**
-  * @dev Base contract for ContractRegistry clients
-*/
-contract ContractRegistryClient is Owned, Utils {
-    bytes32 internal constant CONTRACT_REGISTRY = "ContractRegistry";
-    bytes32 internal constant BANCOR_NETWORK = "BancorNetwork";
-    bytes32 internal constant BANCOR_FORMULA = "BancorFormula";
-    bytes32 internal constant CONVERTER_FACTORY = "ConverterFactory";
-    bytes32 internal constant CONVERSION_PATH_FINDER = "ConversionPathFinder";
-    bytes32 internal constant CONVERTER_UPGRADER = "BancorConverterUpgrader";
-    bytes32 internal constant CONVERTER_REGISTRY = "BancorConverterRegistry";
-    bytes32 internal constant CONVERTER_REGISTRY_DATA = "BancorConverterRegistryData";
-    bytes32 internal constant BNT_TOKEN = "BNTToken";
-    bytes32 internal constant BANCOR_X = "BancorX";
-    bytes32 internal constant BANCOR_X_UPGRADER = "BancorXUpgrader";
-    bytes32 internal constant CHAINLINK_ORACLE_WHITELIST = "ChainlinkOracleWhitelist";
+// /**
+//   * @dev Base contract for ContractRegistry clients
+// */
+// contract ContractRegistryClient is Owned, Utils {
+//     bytes32 internal constant CONTRACT_REGISTRY = "ContractRegistry";
+//     bytes32 internal constant BANCOR_NETWORK = "BancorNetwork";
+//     bytes32 internal constant BANCOR_FORMULA = "BancorFormula";
+//     bytes32 internal constant CONVERTER_FACTORY = "ConverterFactory";
+//     bytes32 internal constant CONVERSION_PATH_FINDER = "ConversionPathFinder";
+//     bytes32 internal constant CONVERTER_UPGRADER = "BancorConverterUpgrader";
+//     bytes32 internal constant CONVERTER_REGISTRY = "BancorConverterRegistry";
+//     bytes32 internal constant CONVERTER_REGISTRY_DATA = "BancorConverterRegistryData";
+//     bytes32 internal constant BNT_TOKEN = "BNTToken";
+//     bytes32 internal constant BANCOR_X = "BancorX";
+//     bytes32 internal constant BANCOR_X_UPGRADER = "BancorXUpgrader";
+//     bytes32 internal constant CHAINLINK_ORACLE_WHITELIST = "ChainlinkOracleWhitelist";
 
-    IContractRegistry public registry;      // address of the current contract-registry
-    IContractRegistry public prevRegistry;  // address of the previous contract-registry
-    bool public onlyOwnerCanUpdateRegistry; // only an owner can update the contract-registry
+//     IContractRegistry public registry;      // address of the current contract-registry
+//     IContractRegistry public prevRegistry;  // address of the previous contract-registry
+//     bool public onlyOwnerCanUpdateRegistry; // only an owner can update the contract-registry
 
-    /**
-      * @dev verifies that the caller is mapped to the given contract name
-      *
-      * @param _contractName    contract name
-    */
-    modifier only(bytes32 _contractName) {
-        _only(_contractName);
-        _;
-    }
+//     /**
+//       * @dev verifies that the caller is mapped to the given contract name
+//       *
+//       * @param _contractName    contract name
+//     */
+//     modifier only(bytes32 _contractName) {
+//         _only(_contractName);
+//         _;
+//     }
 
-    // error message binary size optimization
-    function _only(bytes32 _contractName) internal view {
-        require(msg.sender == addressOf(_contractName), "ERR_ACCESS_DENIED");
-    }
+//     // error message binary size optimization
+//     function _only(bytes32 _contractName) internal view {
+//         require(msg.sender == addressOf(_contractName), "ERR_ACCESS_DENIED");
+//     }
 
-    /**
-      * @dev initializes a new ContractRegistryClient instance
-      *
-      * @param  _registry   address of a contract-registry contract
-    */
-    constructor(IContractRegistry _registry) internal validAddress(address(_registry)) {
-        registry = IContractRegistry(_registry);
-        prevRegistry = IContractRegistry(_registry);
-    }
+//     /**
+//       * @dev initializes a new ContractRegistryClient instance
+//       *
+//       * @param  _registry   address of a contract-registry contract
+//     */
+//     constructor(IContractRegistry _registry) internal validAddress(address(_registry)) {
+//         registry = IContractRegistry(_registry);
+//         prevRegistry = IContractRegistry(_registry);
+//     }
 
-    /**
-      * @dev updates to the new contract-registry
-     */
-    function updateRegistry() public {
-        // verify that this function is permitted
-        require(msg.sender == owner || !onlyOwnerCanUpdateRegistry, "ERR_ACCESS_DENIED");
+//     /**
+//       * @dev updates to the new contract-registry
+//      */
+//     function updateRegistry() public {
+//         // verify that this function is permitted
+//         require(msg.sender == owner || !onlyOwnerCanUpdateRegistry, "ERR_ACCESS_DENIED");
 
-        // get the new contract-registry
-        IContractRegistry newRegistry = IContractRegistry(addressOf(CONTRACT_REGISTRY));
+//         // get the new contract-registry
+//         IContractRegistry newRegistry = IContractRegistry(addressOf(CONTRACT_REGISTRY));
 
-        // verify that the new contract-registry is different and not zero
-        require(newRegistry != registry && address(newRegistry) != address(0), "ERR_INVALID_REGISTRY");
+//         // verify that the new contract-registry is different and not zero
+//         require(newRegistry != registry && address(newRegistry) != address(0), "ERR_INVALID_REGISTRY");
 
-        // verify that the new contract-registry is pointing to a non-zero contract-registry
-        require(newRegistry.addressOf(CONTRACT_REGISTRY) != address(0), "ERR_INVALID_REGISTRY");
+//         // verify that the new contract-registry is pointing to a non-zero contract-registry
+//         require(newRegistry.addressOf(CONTRACT_REGISTRY) != address(0), "ERR_INVALID_REGISTRY");
 
-        // save a backup of the current contract-registry before replacing it
-        prevRegistry = registry;
+//         // save a backup of the current contract-registry before replacing it
+//         prevRegistry = registry;
 
-        // replace the current contract-registry with the new contract-registry
-        registry = newRegistry;
-    }
+//         // replace the current contract-registry with the new contract-registry
+//         registry = newRegistry;
+//     }
 
-    /**
-      * @dev restores the previous contract-registry
-    */
-    function restoreRegistry() public ownerOnly {
-        // restore the previous contract-registry
-        registry = prevRegistry;
-    }
+//     /**
+//       * @dev restores the previous contract-registry
+//     */
+//     function restoreRegistry() public ownerOnly {
+//         // restore the previous contract-registry
+//         registry = prevRegistry;
+//     }
 
-    /**
-      * @dev restricts the permission to update the contract-registry
-      *
-      * @param _onlyOwnerCanUpdateRegistry  indicates whether or not permission is restricted to owner only
-    */
-    function restrictRegistryUpdate(bool _onlyOwnerCanUpdateRegistry) public ownerOnly {
-        // change the permission to update the contract-registry
-        onlyOwnerCanUpdateRegistry = _onlyOwnerCanUpdateRegistry;
-    }
+//     /**
+//       * @dev restricts the permission to update the contract-registry
+//       *
+//       * @param _onlyOwnerCanUpdateRegistry  indicates whether or not permission is restricted to owner only
+//     */
+//     function restrictRegistryUpdate(bool _onlyOwnerCanUpdateRegistry) public ownerOnly {
+//         // change the permission to update the contract-registry
+//         onlyOwnerCanUpdateRegistry = _onlyOwnerCanUpdateRegistry;
+//     }
 
-    /**
-      * @dev returns the address associated with the given contract name
-      *
-      * @param _contractName    contract name
-      *
-      * @return contract address
-    */
-    function addressOf(bytes32 _contractName) internal view returns (address) {
-        return registry.addressOf(_contractName);
-    }
+//     /**
+//       * @dev returns the address associated with the given contract name
+//       *
+//       * @param _contractName    contract name
+//       *
+//       * @return contract address
+//     */
+//     function addressOf(bytes32 _contractName) internal view returns (address) {
+//         return registry.addressOf(_contractName);
+//     }
+// }
+
+interface IContractRegistryClient {
+    
+    function CONTRACT_REGISTRY() external view returns (bytes32);
+    function BANCOR_NETWORK() external view returns (bytes32);
+    function BANCOR_FORMULA() external view returns (bytes32);
+    function CONVERTER_FACTORY() external view returns (bytes32);
+    function CONVERSION_PATH_FINDER() external view returns (bytes32);
+    function CONVERTER_UPGRADER() external view returns (bytes32);
+    function CONVERTER_REGISTRY() external view returns (bytes32);
+    function CONVERTER_REGISTRY_DATA() external view returns (bytes32);
+    function BNT_TOKEN() external view returns (bytes32);
+    function BANCOR_X() external view returns (bytes32);
+    function BANCOR_X_UPGRADER() external view returns (bytes32);
+    function CHAINLINK_ORACLE_WHITELIST() external view returns (bytes32);
+    
+    function addressOf(bytes32 _contractName) external view returns(address) ;
 }
 
 // File: solidity/contracts/utility/SafeMath.sol
@@ -474,7 +492,7 @@ contract TokenHolder is ITokenHolder, IOwned, TokenHandler, Owned, Utils {
   * Reporting cross chain transfers works similar to standard multisig contracts, meaning that multiple
   * callers are required to report a transfer before tokens are released to the target account.
 */
-contract BancorX is IBancorX, TokenHandler, TokenHolder, ContractRegistryClient {
+contract BancorX is IBancorX, TokenHandler, TokenHolder {
     using SafeMath for uint256;
 
     // represents a transaction on another blockchain where tokens were destroyed/locked
@@ -499,6 +517,7 @@ contract BancorX is IBancorX, TokenHandler, TokenHolder, ContractRegistryClient 
     uint8 public minRequiredReports;        // minimum number of required reports to release tokens
 
     IERC20Token public  token;      // erc20 token
+    IContractRegistryClient public contractRegistryClient; // registry
 
     bool public xTransfersEnabled = true;   // true if x transfers are enabled, false if not
     bool public reportingEnabled = true;    // true if reporting is enabled, false if not
@@ -601,17 +620,10 @@ contract BancorX is IBancorX, TokenHandler, TokenHolder, ContractRegistryClient 
         uint256 _minLimit,
         uint256 _limitIncPerBlock,
         uint8 _minRequiredReports,
-        IContractRegistry _registry,
+        IContractRegistryClient _registry,
         IERC20Token _token
-    )   ContractRegistryClient(_registry)
+    )  
         public
-        greaterThanZero(_maxLockLimit)
-        greaterThanZero(_maxReleaseLimit)
-        greaterThanZero(_minLimit)
-        greaterThanZero(_limitIncPerBlock)
-        greaterThanZero(_minRequiredReports)
-        validAddress(address(_token))
-        notThis(address(_token))
     {
         // validate input
         require(_minLimit <= _maxLockLimit && _minLimit <= _maxReleaseLimit, "ERR_INVALID_MIN_LIMIT");
@@ -630,6 +642,7 @@ contract BancorX is IBancorX, TokenHandler, TokenHolder, ContractRegistryClient 
         prevReleaseBlockNumber = block.number;
 
         token = _token;
+        contractRegistryClient = _registry;
     }
 
     // validates that the caller is a reporter
@@ -749,7 +762,7 @@ contract BancorX is IBancorX, TokenHandler, TokenHolder, ContractRegistryClient 
       * @param _reporters    new list of reporters
     */
     function upgrade(address[] memory _reporters) public ownerOnly {
-        IBancorXUpgrader bancorXUpgrader = IBancorXUpgrader(addressOf(BANCOR_X_UPGRADER));
+        IBancorXUpgrader bancorXUpgrader = IBancorXUpgrader(contractRegistryClient.addressOf(contractRegistryClient.BANCOR_X_UPGRADER()));
 
         transferOwnership(address(bancorXUpgrader));
         bancorXUpgrader.upgrade(version, _reporters);
