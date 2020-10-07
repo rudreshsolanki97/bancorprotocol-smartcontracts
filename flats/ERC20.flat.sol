@@ -2,7 +2,7 @@
 // File: solidity/contracts/token/interfaces/IERC20Token.sol
 
 // SPDX-License-Identifier: SEE LICENSE IN LICENSE
-pragma solidity 0.6.12;
+pragma solidity 0.5.12;
 
 /*
     ERC20 Standard Token interface
@@ -144,12 +144,12 @@ contract ERC20Token is IERC20Token, Utils {
     using SafeMath for uint256;
 
 
-    string public override name;
-    string public override symbol;
-    uint8 public override decimals;
-    uint256 public override totalSupply;
-    mapping (address => uint256) public override balanceOf;
-    mapping (address => mapping (address => uint256)) public override allowance;
+    string public name;
+    string public symbol;
+    uint8 public decimals;
+    uint256 public totalSupply;
+    mapping (address => uint256) public balanceOf;
+    mapping (address => mapping (address => uint256)) public allowance;
 
     /**
       * @dev triggered when tokens are transferred between wallets
@@ -200,8 +200,8 @@ contract ERC20Token is IERC20Token, Utils {
     */
     function transfer(address _to, uint256 _value)
         public
-        virtual
-        override
+        
+        
         validAddress(_to)
         returns (bool)
     {
@@ -223,8 +223,8 @@ contract ERC20Token is IERC20Token, Utils {
     */
     function transferFrom(address _from, address _to, uint256 _value)
         public
-        virtual
-        override
+        
+        
         validAddress(_from)
         validAddress(_to)
         returns (bool)
@@ -251,8 +251,8 @@ contract ERC20Token is IERC20Token, Utils {
     */
     function approve(address _spender, uint256 _value)
         public
-        virtual
-        override
+        
+        
         validAddress(_spender)
         returns (bool)
     {

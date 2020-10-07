@@ -6,6 +6,6 @@ import "../../token/interfaces/IERC20Token.sol";
 /*
     Token Holder interface
 */
-interface ITokenHolder is IOwned {
+interface ITokenHolder {
     function withdrawTokens(IERC20Token _token, address _to, uint256 _amount) external;
 }

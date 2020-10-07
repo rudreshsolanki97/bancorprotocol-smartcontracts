@@ -2,7 +2,7 @@
 // File: solidity/contracts/utility/interfaces/IOwned.sol
 
 // SPDX-License-Identifier: SEE LICENSE IN LICENSE
-pragma solidity 0.6.12;
+pragma solidity 0.5.12;
 
 /*
     Owned contract interface
@@ -20,7 +20,7 @@ interface IOwned {
   * @dev Provides support and utilities for contract ownership
 */
 contract Owned is IOwned {
-    address public override owner;
+    address public  owner;
     address public newOwner;
 
     /**
@@ -56,7 +56,7 @@ contract Owned is IOwned {
       *
       * @param _newOwner    new contract owner
     */
-    function transferOwnership(address _newOwner) public override ownerOnly {
+    function transferOwnership(address _newOwner) public  ownerOnly {
         require(_newOwner != owner, "ERR_SAME_OWNER");
         newOwner = _newOwner;
     }
@@ -64,7 +64,7 @@ contract Owned is IOwned {
     /**
       * @dev used by a new owner to accept an ownership transfer
     */
-    function acceptOwnership() override public {
+    function acceptOwnership()  public {
         require(msg.sender == newOwner, "ERR_ACCESS_DENIED");
         emit OwnerUpdate(owner, newOwner);
         owner = newOwner;
@@ -166,7 +166,7 @@ contract ContractRegistry is IContractRegistry, Owned, Utils {
       *
       * @return contract address
     */
-    function addressOf(bytes32 _contractName) public view override returns (address) {
+    function addressOf(bytes32 _contractName) public view  returns (address) {
         return items[_contractName].contractAddress;
     }
 

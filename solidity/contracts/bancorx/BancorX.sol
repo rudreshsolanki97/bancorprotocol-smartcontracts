@@ -41,7 +41,7 @@ contract BancorX is IBancorX, TokenHandler, TokenHolder, ContractRegistryClient 
     uint256 public prevReleaseBlockNumber;  // the block number of the last release transaction
     uint8 public minRequiredReports;        // minimum number of required reports to release tokens
 
-    IERC20Token public override token;      // erc20 token
+    IERC20Token public  token;      // erc20 token
 
     bool public xTransfersEnabled = true;   // true if x transfers are enabled, false if not
     bool public reportingEnabled = true;    // true if reporting is enabled, false if not
@@ -331,7 +331,7 @@ contract BancorX is IBancorX, TokenHandler, TokenHolder, ContractRegistryClient 
       * @param _amount          the amount of tokens to transfer
       * @param _id              pre-determined unique (if non zero) id which refers to this transaction
      */
-    function xTransfer(bytes32 _toBlockchain, bytes32 _to, uint256 _amount, uint256 _id) public override xTransfersAllowed {
+    function xTransfer(bytes32 _toBlockchain, bytes32 _to, uint256 _amount, uint256 _id) public  xTransfersAllowed {
         // get the current lock limit
         uint256 currentLockLimit = getCurrentLockLimit();
 
@@ -424,7 +424,7 @@ contract BancorX is IBancorX, TokenHandler, TokenHolder, ContractRegistryClient 
       *
       * @return amount that was sent in xTransfer corresponding to _xTransferId
     */
-    function getXTransferAmount(uint256 _xTransferId, address _for) public view override returns (uint256) {
+    function getXTransferAmount(uint256 _xTransferId, address _for) public view  returns (uint256) {
         // xTransferId -> txId -> Transaction
         Transaction memory transaction = transactions[transactionIds[_xTransferId]];
 

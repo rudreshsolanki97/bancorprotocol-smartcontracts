@@ -2,6 +2,11 @@ const fs = require('fs');
 const path = require('path');
 const Web3 = require('web3');
 
+
+/**
+ * 7995fe2b9bf2133a7dae0892b11d9232b8cd9c892a833999bcd29da58fbb5d26
+ */
+
 const NODE_ADDRESS = process.argv[2];
 const PRIVATE_KEY = process.argv[2];
 const CONTRACT_NAME = process.argv[3];
