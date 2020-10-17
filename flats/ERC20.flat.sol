@@ -1,19 +1,22 @@
 
 // File: solidity/contracts/token/interfaces/IERC20Token.sol
 
+
+
+
 // SPDX-License-Identifier: SEE LICENSE IN LICENSE
-pragma solidity 0.5.12;
+pragma solidity 0.4.24;
 
 /*
     ERC20 Standard Token interface
 */
 interface IERC20Token {
-    function name() external view returns (string memory);
-    function symbol() external view returns (string memory);
-    function decimals() external view returns (uint8);
-    function totalSupply() external view returns (uint256);
-    function balanceOf(address _owner) external view returns (uint256);
-    function allowance(address _owner, address _spender) external view returns (uint256);
+    // function name() external view returns (string memory);
+    // function symbol() external view returns (string memory);
+    // function decimals() external view returns (uint8);
+    // function totalSupply() external view returns (uint256);
+    // function balanceOf(address _owner) external view returns (uint256);
+    // function allowance(address _owner, address _spender) external view returns (uint256);
 
     function transfer(address _to, uint256 _value) external returns (bool);
     function transferFrom(address _from, address _to, uint256 _value) external returns (bool);
@@ -24,9 +27,6 @@ interface IERC20Token {
 
 
 
-/**
-  * @dev Utilities & Common Modifiers
-*/
 contract Utils {
     // verifies that a value is greater than zero
     modifier greaterThanZero(uint256 _value) {
