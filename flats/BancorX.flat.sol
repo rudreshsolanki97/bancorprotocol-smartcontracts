@@ -2,13 +2,13 @@
 // File: solidity/contracts/bancorx/interfaces/IBancorXUpgrader.sol
 
 // SPDX-License-Identifier: SEE LICENSE IN LICENSE
-pragma solidity 0.5.12;
+pragma solidity 0.4.24;
 
 /*
     Bancor X Upgrader interface
 */
 interface IBancorXUpgrader {
-    function upgrade(uint16 _version, address[] calldata _reporters) external;
+    function upgrade(uint16 _version, address[] calldata) external;
 }
 
 // File: solidity/contracts/token/interfaces/IERC20Token.sol
@@ -37,7 +37,7 @@ interface IERC20Token {
 
 
 interface IBancorX {
-    function token() external view returns (IERC20Token);
+    // function token() external view returns (IERC20Token);
     function xTransfer(bytes32 _toBlockchain, bytes32 _to, uint256 _amount, uint256 _id) external;
     function getXTransferAmount(uint256 _xTransferId, address _for) external view returns (uint256);
 }
@@ -51,7 +51,7 @@ interface IBancorX {
 */
 interface IOwned {
     // this function isn't since the compiler emits automatically generated getter functions as external
-    function owner() external view returns (address);
+    // function owner() external view returns (address);
 
     function transferOwnership(address _newOwner) external;
     function acceptOwnership() external;
@@ -383,8 +383,8 @@ contract TokenHandler {
       * @param _value   allowance amount
     */
     function safeApprove(IERC20Token _token, address _spender, uint256 _value) internal {
-        (bool success, bytes memory data) = address(_token).call(abi.encodeWithSelector(APPROVE_FUNC_SELECTOR, _spender, _value));
-        require(success && (data.length == 0 || abi.decode(data, (bool))), 'ERR_APPROVE_FAILED');
+        (bool success) = address(_token).call(abi.encodeWithSelector(APPROVE_FUNC_SELECTOR, _spender, _value));
+        require(success, 'ERR_APPROVE_FAILED');
     }
 
     /**
@@ -397,8 +397,8 @@ contract TokenHandler {
       * @param _value   transfer amount
     */
     function safeTransfer(IERC20Token _token, address _to, uint256 _value) internal {
-       (bool success, bytes memory data) = address(_token).call(abi.encodeWithSelector(TRANSFER_FUNC_SELECTOR, _to, _value));
-        require(success && (data.length == 0 || abi.decode(data, (bool))), 'ERR_TRANSFER_FAILED');
+       (bool success) = address(_token).call(abi.encodeWithSelector(TRANSFER_FUNC_SELECTOR, _to, _value));
+        require(success, 'ERR_TRANSFER_FAILED');
     }
 
     /**
@@ -412,8 +412,8 @@ contract TokenHandler {
       * @param _value   transfer amount
     */
     function safeTransferFrom(IERC20Token _token, address _from, address _to, uint256 _value) internal {
-       (bool success, bytes memory data) = address(_token).call(abi.encodeWithSelector(TRANSFER_FROM_FUNC_SELECTOR, _from, _to, _value));
-        require(success && (data.length == 0 || abi.decode(data, (bool))), 'ERR_TRANSFER_FROM_FAILED');
+       (bool success) = address(_token).call(abi.encodeWithSelector(TRANSFER_FROM_FUNC_SELECTOR, _from, _to, _value));
+        require(success, 'ERR_TRANSFER_FROM_FAILED');
     }
 }
 
@@ -450,7 +450,7 @@ interface ITokenHolder  {
   * in order to support both non standard as well as standard token contracts.
   * see https://github.com/ethereum/solidity/issues/4116
 */
-contract TokenHolder is ITokenHolder, IOwned, TokenHandler, Owned, Utils {
+contract TokenHolder is ITokenHolder, TokenHandler, Owned, Utils {
     /**
       * @dev withdraws tokens held by the contract and sends them to an account
       * can only be called by the owner
@@ -624,6 +624,12 @@ contract BancorX is IBancorX, TokenHandler, TokenHolder {
         IERC20Token _token
     )  
         public
+        // greaterThanZero(_maxLockLimit)
+        // greaterThanZero(_maxReleaseLimit)
+        // greaterThanZero(_minLimit)
+        // greaterThanZero(_limitIncPerBlock)
+        // greaterThanZero(_minRequiredReports)
+        // notThis(address(_token))
     {
         // validate input
         require(_minLimit <= _maxLockLimit && _minLimit <= _maxReleaseLimit, "ERR_INVALID_MIN_LIMIT");
