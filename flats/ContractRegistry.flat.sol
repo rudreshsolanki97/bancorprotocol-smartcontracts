@@ -2,14 +2,14 @@
 // File: solidity/contracts/utility/interfaces/IOwned.sol
 
 // SPDX-License-Identifier: SEE LICENSE IN LICENSE
-pragma solidity 0.5.12;
+pragma solidity 0.4.24;
 
 /*
     Owned contract interface
 */
 interface IOwned {
     // this function isn't since the compiler emits automatically generated getter functions as external
-    function owner() external view returns (address);
+    // function owner() external view returns (address);
 
     function transferOwnership(address _newOwner) external;
     function acceptOwnership() external;
@@ -230,7 +230,8 @@ contract ContractRegistry is IContractRegistry, Owned, Utils {
         }
 
         // remove the last element from the name list
-        contractNames.pop();
+        delete contractNames[contractNames.length-1];
+        contractNames.length--;
         // zero the deleted element's index
         items[_contractName].nameIndex = 0;
 
