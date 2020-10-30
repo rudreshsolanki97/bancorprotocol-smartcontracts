@@ -12,7 +12,7 @@
  
 ## Apothem - 2
 
- - ERC20 - xdc3c686ddbcbaadf51806965d4ceb0e47549eff56c
+ - ERC20 - 
  - ContractRegistry - xdc62b2fd6a4c50294cca178d0e7a8cf1b69f116124
  - ContractRegistryClient - xdc955ddb9f74dea4de365c01bc274ce232f89d00e3
- - BancorX - xdcb39641b19e42b80274c3c1b4fc76b58b97ba3dd9
+ - BancorX - xdc9d7b74d94d79ee8218bee3e1450d61ee359523e1
