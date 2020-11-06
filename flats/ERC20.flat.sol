@@ -1,6 +1,9 @@
 
 // File: solidity/contracts/token/interfaces/IERC20Token.sol
 
+
+
+
 // SPDX-License-Identifier: SEE LICENSE IN LICENSE
 pragma solidity 0.4.24;
 
