@@ -19,4 +19,4 @@
 - ERC20: 0x71c3a9ad5a7751d7022522e3033980e0076ffbde
 - ContractRegistry: 0x04f645af459a584ae5cf5c298f29ecffedb8ecb2
 - ContractRegistryClient: 0xc64350ed3f8e37ed79b27c4ff7fdc6f6be77e856
-- BancorX: xdca8e06368e56e3465c54e2e0db0938e2439cbb2eb
+- BancorX: xdcb099c0a39efc6a3bb068450b330969c280d7646d
